@@ -8,6 +8,17 @@ let bar_top = calculator.querySelector(".calculator-bar-top");
 let bar_bottom = calculator.querySelector(".calculator-bar-bottom");
 let input = calculator.querySelector(".calculator-input");
 
+let all_buttons = input.querySelectorAll("button");
+let id_to_button = {};
+
+for (let i = 0; i < all_buttons.length; i++) {
+    id_to_button[all_buttons[i].id] = all_buttons[i];
+}
+
+id_to_button["Enter"] = input.querySelector("#NOSHIFT-Equal");
+
+console.log(id_to_button);
+
 let left_number = 0;
 let operator = '';
 
@@ -37,7 +48,7 @@ function performBinaryOperation() {
 }
 
 input.addEventListener("click", (e) => {
-    if (e.target.className != "calculator-input-button")
+    if (!e.target.classList.contains("calculator-input-button"))
         return;
     let buttonText = e.target.textContent;
 
@@ -140,4 +151,31 @@ input.addEventListener("click", (e) => {
     else {
         console.log(`Unknown operator: ${buttonText}`);
     }
+});
+
+window.addEventListener("keydown", (e) => {
+    if (e.code in id_to_button) {
+        id_to_button[e.code].click();
+        id_to_button[e.code].focus();
+    }
+    else {
+        if (e.shiftKey) {
+            if (("SHIFT-" + e.code) in id_to_button) {
+                id_to_button["SHIFT-" + e.code].click();
+                id_to_button["SHIFT-" + e.code].focus();
+            }
+        }
+        else {
+            if (("NOSHIFT-" + e.code) in id_to_button) {
+                id_to_button["NOSHIFT-" + e.code].click();
+                id_to_button["NOSHIFT-" + e.code].focus();
+            }
+        }
+    }
+});
+
+window.addEventListener('paste', (e) => {
+    const clipboardData = e.clipboardData || window.clipboardData; 
+    const pastedText = clipboardData.getData('text');
+    console.log(pastedText);
 });

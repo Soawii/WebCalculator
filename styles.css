@@ -7,7 +7,7 @@
 
 html, body {
     height: 100%;
-    background-color: rgb(210, 210, 210);
+    background-color: #222;
     color: #000;
 }
 
@@ -29,41 +29,47 @@ body {
     height: 100%;
     width: 100%;
 
-    max-width: 800px;
-    max-height: 900px;
+    max-width: 700px;
+    max-height: 750px;
 
     display: flex;
     flex-direction: column;
 
-    padding: 10px;
-    gap: 10px;
+    padding: 24px;
+    gap: 16px;
 
-    background-color: rgb(225, 225, 225);
+    background-color: rgb(215, 215, 215);
 
     border-radius: 24px;
-    box-shadow: 0px 0px 4px #222 ;
+    box-shadow: 0px 0px 6px #fff ;
 }
 
 .calculator-bar {
-    padding: 0px 10px;
+    padding: 0px 10px 1.5rem 10px;
     height: 8.5rem;
-
-    text-align: end;
 
     border-radius: 14px;
 
     background-color: rgb(240, 240, 240);
+
+    display: flex;
+    flex-direction: column;
 }
 
 .calculator-bar-top {
     padding: 0.25rem 0rem;
     font-size: 1.5rem;
     color:rgb(150, 150, 150);
+
+    text-align: end;
 }
 
 .calculator-bar-bottom {
-    padding: 0px 0px 1.5rem 0px;
     font-size: 4rem;
+
+    border: 0px;
+    text-align: end;
+    background-color: rgb(240, 240, 240);
 
     overflow-y: hidden;
     overflow-x: auto;
@@ -93,16 +99,12 @@ body {
 
     background-color: rgb(240, 240, 240);
 
-    border-radius: 8px;
+    border-radius: 14px;
     border: 0px;
     box-shadow: 0px 0px 3px #aaa;
 
     font-size: 2.5rem;
     font-family: inherit;
-}
-
-#button-equals {
-    flex: 2;
 }
 
 .calculator-input-button:hover {
@@ -111,4 +113,54 @@ body {
 
 .calculator-input-button:active {
     background-color: rgb(200, 200, 200);
+}
+
+.bluer {
+    background-color: rgb(200, 200, 230);
+}
+.bluer:hover {
+    background-color: rgb(180, 180, 230);
+}
+.bluer:active {
+    background-color: rgb(160, 160, 230);
+}
+
+.purpler {
+    background-color: rgb(230, 230, 250);
+}
+.purpler:hover {
+    background-color: rgb(210, 210, 250);
+}
+.purpler:active {
+    background-color: rgb(190, 190, 250);
+}
+
+.greener {
+    background-color: rgb(200, 230, 200);
+}
+.greener:hover {
+    background-color: rgb(170, 230, 170);
+}
+.greener:active {
+    background-color: rgb(140, 230, 140);
+}
+
+.redder {
+    background-color: rgb(230, 200, 200);
+}
+.redder:hover {
+    background-color: rgb(230, 180, 180);
+}
+.redder:active {
+    background-color: rgb(230, 160, 160);
+}
+
+.darker {
+    background-color: rgb(230, 230, 230);
+}
+.darker:hover {
+    background-color: rgb(210, 210, 210);
+}
+.darker:active {
+    background-color: rgb(190, 190, 190);
 }
