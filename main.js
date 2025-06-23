@@ -19,9 +19,6 @@ id_to_button["Enter"] = input.querySelector("#NOSHIFT-Equal");
 
 console.log(id_to_button);
 
-let left_number = 0;
-let operator = '';
-
 let operator_to_function = {
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
@@ -37,14 +34,26 @@ function isStringGood(string) {
     return !isNaN(Number(string));
 }
 
-function performUnaryOperation() {
-    let func = operator_to_function[operator];
-    return func(left_number);
+function isScientific(num) {
+    return String(num).includes('e');
 }
 
-function performBinaryOperation() {
+function performUnaryOperation(operator, a) {
     let func = operator_to_function[operator];
-    return func(left_number, Number(bar_bottom.textContent));
+    return func(a);
+}
+
+function performBinaryOperation(operator, a, b) {
+    let func = operator_to_function[operator];
+    return func(a, b);
+}
+
+function getNumber() {
+    return Number(bar_top.textContent.split(' ')[0]);
+}
+
+function getOperator() {
+    return bar_top.textContent.split(' ')[1];
 }
 
 input.addEventListener("click", (e) => {
@@ -53,57 +62,37 @@ input.addEventListener("click", (e) => {
     let buttonText = e.target.textContent;
 
     if (numbers.includes(buttonText)) {
-        if (state == "left" || state == "right") {
-            if (bar_bottom.textContent == '0')
-                bar_bottom.textContent = buttonText;
-            else 
-                bar_bottom.textContent += buttonText
-        }
+        if (bar_bottom.textContent == '0')
+            bar_bottom.textContent = buttonText;
+        else 
+            bar_bottom.textContent += buttonText
     }
     else if (binary_operators.includes(buttonText)) {
+        if (!isStringGood(bar_bottom.textContent))
+            return;
         if (state == "right") {
-            if (!isStringGood(bar_bottom.textContent))
-                return;
-
-            bar_bottom.textContent = String(performBinaryOperation());
-
+            bar_bottom.textContent = String(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
             bar_top.textContent = '0';
             state = "left";
         }
         if (state == "left") {
-            if (!isStringGood(bar_bottom.textContent))
-                return;
-            left_number = Number(bar_bottom.textContent);
-            operator = buttonText;
-
-            bar_top.textContent = String(left_number) + " " + buttonText;
+            bar_top.textContent = bar_bottom.textContent + " " + buttonText;
             bar_bottom.textContent = '0';
             state = "right";
         }
     }
     else if (unary_operators.includes(buttonText)) {
+        if (!isStringGood(bar_bottom.textContent))
+            return;
         if (state == "left") {
-            if (!isStringGood(bar_bottom.textContent))
-                return;
-            left_number = Number(bar_bottom.textContent);
-
-            operator = buttonText;
-
-            bar_top.textContent = '0';
-            bar_bottom.textContent = String(performUnaryOperation());
+            bar_bottom.textContent = String(performUnaryOperation(buttonText, Number(bar_bottom.textContent)));
         }
         else if (state == "right") {
-            if (!isStringGood(bar_bottom.textContent))
-                return;
-            let new_left_number = performBinaryOperation();
+            let new_left_number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent));
             if (!isStringGood(String(new_left_number)))
                 return;
-            left_number = new_left_number;
-
-            operator = buttonText;
-
             bar_top.textContent = '0';
-            bar_bottom.textContent = performUnaryOperation();
+            bar_bottom.textContent = String(performUnaryOperation(buttonText, new_left_number));
             state = "left";
         }
     }
@@ -140,11 +129,8 @@ input.addEventListener("click", (e) => {
                 return;
             if (!isStringGood(bar_bottom.textContent))
                 return;
-            left_number = performBinaryOperation();
-
+            bar_bottom.textContent = String(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
             bar_top.textContent = "0";
-            bar_bottom.textContent = left_number;
-            operator = "";
             state = "left";
         }
     }
@@ -152,6 +138,8 @@ input.addEventListener("click", (e) => {
         console.log(`Unknown operator: ${buttonText}`);
     }
 });
+
+
 
 window.addEventListener("keydown", (e) => {
     if (e.code in id_to_button) {
@@ -177,5 +165,7 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener('paste', (e) => {
     const clipboardData = e.clipboardData || window.clipboardData; 
     const pastedText = clipboardData.getData('text');
-    console.log(pastedText);
+    if (!isStringGood(pastedText))
+        return;
+    bar_bottom.textContent = pastedText;
 });

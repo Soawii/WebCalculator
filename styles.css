@@ -74,6 +74,9 @@ body {
     overflow-y: hidden;
     overflow-x: auto;
     white-space: nowrap;
+
+    scrollbar-width: thin;
+    scrollbar-arrow-color: black;
 }
 
 .calculator-input {
