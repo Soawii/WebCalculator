@@ -56,6 +56,16 @@ function getOperator() {
     return bar_top.textContent.split(' ')[1];
 }
 
+function getNumberReadyForDisplay(number) {
+    if (isScientific(number))
+        return String(number);
+    let string = number.toFixed(10);
+    while (string.slice(-1) == '0' || string.slice(-1) == '.') {
+        string = string.slice(0,-1);
+    }
+    return string;
+}
+
 input.addEventListener("click", (e) => {
     if (!e.target.classList.contains("calculator-input-button"))
         return;
@@ -71,7 +81,7 @@ input.addEventListener("click", (e) => {
         if (!isStringGood(bar_bottom.textContent))
             return;
         if (state == "right") {
-            bar_bottom.textContent = String(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
+            bar_bottom.textContent = getNumberReadyForDisplay(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
             bar_top.textContent = '0';
             state = "left";
         }
@@ -85,14 +95,14 @@ input.addEventListener("click", (e) => {
         if (!isStringGood(bar_bottom.textContent))
             return;
         if (state == "left") {
-            bar_bottom.textContent = String(performUnaryOperation(buttonText, Number(bar_bottom.textContent)));
+            bar_bottom.textContent = getNumberReadyForDisplay(performUnaryOperation(buttonText, Number(bar_bottom.textContent)));
         }
         else if (state == "right") {
             let new_left_number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent));
             if (!isStringGood(String(new_left_number)))
                 return;
             bar_top.textContent = '0';
-            bar_bottom.textContent = String(performUnaryOperation(buttonText, new_left_number));
+            bar_bottom.textContent = getNumberReadyForDisplay(performUnaryOperation(buttonText, new_left_number));
             state = "left";
         }
     }
@@ -129,7 +139,7 @@ input.addEventListener("click", (e) => {
                 return;
             if (!isStringGood(bar_bottom.textContent))
                 return;
-            bar_bottom.textContent = String(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
+            bar_bottom.textContent = getNumberReadyForDisplay(performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent)));
             bar_top.textContent = "0";
             state = "left";
         }
@@ -138,7 +148,6 @@ input.addEventListener("click", (e) => {
         console.log(`Unknown operator: ${buttonText}`);
     }
 });
-
 
 
 window.addEventListener("keydown", (e) => {
