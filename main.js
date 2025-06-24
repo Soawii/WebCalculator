@@ -1,35 +1,8 @@
-let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-let binary_operators = ['+', '-', '/', '*', '^'];
-let unary_operators = ['√'];
-let other_operators = ['.', '=', '⌫', 'C'];
-const ERROR_MSG = "NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO";
+const ERROR_MSG = "NO NO NO NO NO NO NO NO NO NO NO NO NO";
 
-let calculator = document.querySelector(".calculator");
-let bar_top = calculator.querySelector(".calculator-bar-top");
-let bar_bottom = calculator.querySelector(".calculator-bar-bottom");
-let input = calculator.querySelector(".calculator-input");
-
-let all_buttons = input.querySelectorAll("button");
-let id_to_button = {};
-
-for (let i = 0; i < all_buttons.length; i++) {
-    id_to_button[all_buttons[i].id] = all_buttons[i];
-}
-
-id_to_button["Enter"] = input.querySelector("#NOSHIFT-Equal");
-
-console.log(id_to_button);
-
-let operator_to_function = {
-    '+': (a, b) => a + b,
-    '-': (a, b) => a - b,
-    '/': (a, b) => a / b,
-    '*': (a, b) => a * b,
-    '^': (a, b) => a ** b,
-    '√': a => Math.sqrt(a),
-};
-
-let state = "left"; // left right
+let state = "left"; // [left, right]
+let bar_top = document.querySelector(".calculator-bar-top");
+let bar_bottom = document.querySelector(".calculator-bar-bottom");
 
 function isStringGood(string) {
     return !isNaN(Number(string)) && isFinite(Number(string));
@@ -69,9 +42,86 @@ function getNumberReadyForDisplay(number) {
     return string;
 }
 
-input.addEventListener("click", (e) => {
+let operator_to_function = {
+    // binary operators
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    '/': (a, b) => a / b,
+    '*': (a, b) => a * b,
+    '^': (a, b) => a ** b,
+
+    // unary operators
+    '√': a => Math.sqrt(a),
+
+    // other operators
+    '.': () => {
+        if (!bar_bottom.textContent.includes('.'))
+            bar_bottom.textContent += '.';
+    },
+    '=': () => {
+        if (state != "right")
+            return;
+        if (!isStringGood(bar_bottom.textContent))
+            return;
+        let number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent));
+        if (!isStringGood(String(number))) {
+            alert(ERROR_MSG);
+            return;
+        }
+        bar_bottom.textContent = getNumberReadyForDisplay(number);
+        bar_top.textContent = "0";
+        state = "left";
+    },
+    '⌫': () => {
+        if (bar_bottom.textContent.length > 1) {
+            bar_bottom.textContent = bar_bottom.textContent.slice(0, -1);
+            return;
+        }
+        if (bar_top.textContent != '0' && bar_bottom.textContent == '0') {
+            state = "left";
+            bar_bottom.textContent = bar_top.textContent.split(' ')[0];
+            bar_top.textContent = '0';
+            return;
+        }
+        bar_bottom.textContent = '0';
+    },
+    'C': () => {
+        bar_bottom.textContent = '0';
+        bar_top.textContent = '0';
+        state = "left";
+    },
+};
+
+function Operator(name, button, func) {
+    this.name = name;
+    this.button_id = button;
+    this.func = func;
+}
+
+let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+let operators = [];
+let all_buttons = document.querySelectorAll("button");
+let id_to_button = {};
+id_to_button["Enter"] = document.querySelector("#NOSHIFT-Equal");
+
+for (let i = 0; i < all_buttons.length; i++) {
+    id_to_button[all_buttons[i].id] = all_buttons[i];
+    if (all_buttons[i].textContent in operator_to_function)
+        operators.push(new Operator(all_buttons[i].textContent, all_buttons[i], operator_to_function[all_buttons[i].textContent]));
+}
+
+let argumentNumberToOperators = Array.of([], [], []);
+
+for (let i = 0; i < operators.length; i++) {
+    argumentNumberToOperators[operators[i].func.length].push(operators[i].name);
+}
+
+console.log(argumentNumberToOperators);
+
+document.querySelector(".calculator-input").addEventListener("click", (e) => {
     if (!e.target.classList.contains("calculator-input-button"))
         return;
+
     let buttonText = e.target.textContent;
 
     if (numbers.includes(buttonText)) {
@@ -80,10 +130,14 @@ input.addEventListener("click", (e) => {
         else 
             bar_bottom.textContent += buttonText
     }
-    else if (binary_operators.includes(buttonText)) {
+    else if (argumentNumberToOperators[2].includes(buttonText)) { // binary operators
         if (!isStringGood(bar_bottom.textContent))
             return;
         if (state == "right") {
+            if (bar_bottom.textContent == '0') {
+                bar_top.textContent = getNumber() + " " + buttonText;
+                return;
+            }
             let number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent));
             if (!isStringGood(String(number))) {
                 alert(ERROR_MSG);
@@ -99,7 +153,7 @@ input.addEventListener("click", (e) => {
             state = "right";
         }
     }
-    else if (unary_operators.includes(buttonText)) {
+    else if (argumentNumberToOperators[1].includes(buttonText)) { // unary operators
         if (!isStringGood(bar_bottom.textContent))
             return;
         if (state == "left") {
@@ -121,44 +175,8 @@ input.addEventListener("click", (e) => {
             state = "left";
         }
     }
-    else if (other_operators.includes(buttonText)) {
-        if (buttonText == '.') {
-            if (!bar_bottom.textContent.includes('.'))
-                bar_bottom.textContent += '.';
-        }
-        else if (buttonText == 'C') {
-            bar_bottom.textContent = '0';
-            bar_top.textContent = '0';
-            state = "left";
-        }
-        else if (buttonText == '⌫') {
-            if (bar_bottom.textContent.length > 1)
-                bar_bottom.textContent = bar_bottom.textContent.slice(0, -1);
-            else {
-                if (bar_top.textContent != '0' && bar_bottom.textContent == '0') {
-                    state = "left";
-                    bar_bottom.textContent = bar_top.textContent.split(' ')[0];
-                    bar_top.textContent = '0';
-                }
-                else {
-                    bar_bottom.textContent = '0';
-                }
-            }
-        }
-        else if (buttonText == '=') {
-            if (state != "right")
-                return;
-            if (!isStringGood(bar_bottom.textContent))
-                return;
-            let number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.textContent));
-            if (!isStringGood(String(number))) {
-                alert(ERROR_MSG);
-                return;
-            }
-            bar_bottom.textContent = getNumberReadyForDisplay(number);
-            bar_top.textContent = "0";
-            state = "left";
-        }
+    else if (argumentNumberToOperators[0].includes(buttonText)) { // other operators
+        operator_to_function[buttonText]();
     }
     else {
         console.log(`Unknown operator: ${buttonText}`);
