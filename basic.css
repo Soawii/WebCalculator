@@ -16,6 +16,22 @@ body {
     flex-direction: column;
 }
 
+header {
+    background-color: rgb(198, 188, 232);
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.header-link {
+    font-size: 1rem;
+    width: 100px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 1rem;
+    color:black;
+}
+
 .content {
     flex: 1;
     display: flex;
