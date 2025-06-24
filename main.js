@@ -18,10 +18,13 @@ function isStringGood(string) {
 
 function addStringAt(string, pointer) {
     const newValue = bar_bottom.value.slice(0, pointer[0]) + string + bar_bottom.value.slice(pointer[1]);
-    if (!isStringGood(newValue))
-        return;
+    if (!isStringGood(newValue)) {
+        updatePointer([bar_bottom.value.length, bar_bottom.value.length]);
+        return false;
+    }
     bar_bottom.value = newValue;
     updatePointer([pointer[0] + string.length, pointer[0] + string.length]);
+    return true;
 }
 
 function deleteStringAt(pointer) {
@@ -48,12 +51,12 @@ function isScientific(num) {
 }
 
 function performUnaryOperation(operator, a) {
-    let func = number_operators[operator];
+    let func = operator_to_func[operator];
     return func(a);
 }
 
 function performBinaryOperation(operator, a, b) {
-    let func = number_operators[operator];
+    let func = operator_to_func[operator];
     return func(a, b);
 }
 
@@ -77,7 +80,7 @@ function getNumberReadyForDisplay(number) {
     return string;
 }
 
-let number_operators = {
+let operator_to_func = {
     // binary operators
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
@@ -87,9 +90,8 @@ let number_operators = {
 
     // unary operators
     '√': a => Math.sqrt(a),
-};
 
-let other_operators = {
+    // other operators
     '.': () => {
         addStringAt('.', selectionPointer);
     },
@@ -99,9 +101,10 @@ let other_operators = {
         if (!isStringGood(bar_bottom.value))
             return;
         let number = performBinaryOperation(getOperator(), getNumber(), Number(bar_bottom.value));
-        addStringAt(getNumberReadyForDisplay(number), [0, bar_bottom.value.length]);
-        bar_top.textContent = "0";
-        state = "left";
+        if (addStringAt(getNumberReadyForDisplay(number), [0, bar_bottom.value.length])) {
+            bar_top.textContent = "0";
+            state = "left";
+        }
     },
     '⌫': () => {
         deleteStringAt(selectionPointer);
@@ -111,7 +114,7 @@ let other_operators = {
         bar_top.textContent = '0';
         state = "left";
     },
-}
+};
 
 function Operator(name, button, func) {
     this.name = name;
@@ -123,12 +126,13 @@ let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let operators = [];
 let all_buttons = document.querySelectorAll("button");
 let id_to_button = {};
+
 id_to_button["Enter"] = document.querySelector("#NOSHIFT-Equal");
 
 for (let i = 0; i < all_buttons.length; i++) {
     id_to_button[all_buttons[i].id] = all_buttons[i];
-    if (all_buttons[i].textContent in number_operators)
-        operators.push(new Operator(all_buttons[i].textContent, all_buttons[i], number_operators[all_buttons[i].textContent]));
+    if (all_buttons[i].textContent in operator_to_func)
+        operators.push(new Operator(all_buttons[i].textContent, all_buttons[i], operator_to_func[all_buttons[i].textContent]));
 }
 
 let argumentNumberToOperators = Array.of([], [], []);
@@ -182,8 +186,8 @@ function processButtonPress(buttonText) {
             state = "left";
         }
     }
-    else if (buttonText in other_operators) { // other operators
-        other_operators[buttonText]();
+    else if (argumentNumberToOperators[0].includes(buttonText)) { // other operators
+        operator_to_func[buttonText]();
     }
 }
 
@@ -198,29 +202,37 @@ bar_bottom.addEventListener("selectionchange", (e) => {
     selectionPointer = [bar_bottom.selectionStart, bar_bottom.selectionEnd];
 });
 
+const allowedRegex = /^[0-9]*(\.[0-9]*)?$/;
 bar_bottom.addEventListener("input", (e) => {
-    const type = e.inputType;
-    if (type == "insertText") {
-        e.target.value = prevText;
-        processButtonPress(e.data);
+    if (!bar_bottom.value.match(allowedRegex)) {
+        bar_bottom.value = prevText;
     }
-    else if (type == "insertFromPaste") {
-        e.target.value = prevText;
-        addStringAt(e.data, selectionPointer);
-    }
-    prevText = e.target.value;
+    prevText = bar_bottom.value;
 });
 
-bar_bottom.addEventListener("keyup", (e) => {
-    if (e.code == "Backspace" && bar_bottom.value == '') {
+bar_bottom.addEventListener("keydown", (e) => {
+    if (e.code == "Backspace" && bar_bottom.value == '' && bar_top.textContent != '0') {
         processButtonPress('⌫');
+        e.preventDefault();
     }
-    prevText = e.target.value;
 });
 
 window.addEventListener("keydown", (e) => {
-    if (e.code == "Enter") {
-        processButtonPress("=");
+    if (e.code in id_to_button) {
+        id_to_button[e.code].click();
     }
-    prevText = e.target.value;
+    else {
+        if (e.shiftKey) {
+            if (("SHIFT-" + e.code) in id_to_button) {
+                id_to_button["SHIFT-" + e.code].click();
+            }
+        }
+        else {
+            if (("NOSHIFT-" + e.code) in id_to_button) {
+                id_to_button["NOSHIFT-" + e.code].click();
+            }
+        }
+    }
 });
+
+bar_bottom.focus();
