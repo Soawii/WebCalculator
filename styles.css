@@ -78,8 +78,13 @@ body {
     border: 0px;
     text-align: end;
     background-color: rgb(240, 240, 240);
-    
-    outline: none;
+
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    scrollbar-width: thin;
+    scrollbar-arrow-color: black;
 }
 
 .calculator-input {
