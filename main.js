@@ -32,8 +32,11 @@ function getOperator() {
 
 function getNumberReadyForDisplay(number) {
     if (isScientific(number))
-        return String(number);
-    let string = number.toFixed(10);
+        return number.toExponential(8);
+    let string = number.toFixed(8);
+    while (string.slice(-1) == '0') {
+        string = string.slice(0,-1);
+    }
     while (string.slice(-1) == '0') {
         string = string.slice(0,-1);
     }
