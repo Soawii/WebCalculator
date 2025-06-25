@@ -523,3 +523,5 @@ window.addEventListener("keydown", (e) => {
         }
     }
 });
+
+bar_bottom.setAttribute("inputmode", "none");
