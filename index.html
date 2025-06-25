@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./basic.css">
 </head>
 <body>
+    <header>
+        <a href="./index.html" class="header-link" id="link-basic">Basic</a>
+        <a href="./complex.html" class="header-link" id="link-complex">Complex</a>
+    </header>
     <div class="content">
         <div class="calculator">
-            <div class="calculator-name">Calculator</div>
+            <div class="calculator-name">Basic Calculator</div>
             <div class="calculator-bar">
                 <div class="calculator-bar-top">0</div>
                 <div class="calculator-bar-bottom">0</div>
             </div>
             <div class="calculator-input">
                 <div class="calculator-input-col">
-                    <button class="calculator-input-button redder" id="SHIFT-KeyC">C</button>
+                    <button class="calculator-input-button redder" id="SHIFT-KeyC">CE</button>
                     <button class="calculator-input-button" id="Digit7">7</button>
                     <button class="calculator-input-button" id="Digit4">4</button>
                     <button class="calculator-input-button" id="Digit1">1</button>
@@ -30,7 +35,7 @@
                     <button class="calculator-input-button" id="Digit0">0</button>
                 </div>
                 <div class="calculator-input-col">
-                    <button class="calculator-input-button bluer" id="SHIFT-Digit6">^</button>
+                    <button class="calculator-input-button purpler id="SHIFT-Digit6">^</button>
                     <button class="calculator-input-button" id="Digit9">9</button>
                     <button class="calculator-input-button" id="NOSHIFT-Digit6">6</button>
                     <button class="calculator-input-button" id="Digit3">3</button>
@@ -46,6 +51,6 @@
             </div>
         </div>
     </div>
-    <script src="./main.js"></script>
+    <script src="./basic.js"></script>
 </body>
 </html>

@@ -16,6 +16,22 @@ body {
     flex-direction: column;
 }
 
+header {
+    background-color: rgb(225, 225, 225);
+    padding: 4px;
+
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.header-link {
+    text-align: center;
+    width: 100px;
+    padding: 8px;
+    color:#000;
+}
+
 .content {
     flex: 1;
     display: flex;
@@ -36,7 +52,6 @@ body {
     flex-direction: column;
 
     padding: 24px;
-    gap: 16px;
 
     background-color: rgb(225, 225, 225);
 
@@ -50,8 +65,15 @@ body {
     font-weight: bold;
 }
 
+.calculator-helper {
+    text-align: center;
+    font-size: 0.75rem;
+    padding-bottom: 0.5rem;
+}
+
 .calculator-bar {
-    padding: 0px 10px 1.5rem 10px;
+    padding: 0rem 0.6rem;
+    padding-bottom: 16px;
     height: 8.5rem;
 
     border-radius: 14px;
@@ -79,9 +101,11 @@ body {
     text-align: end;
     background-color: rgb(240, 240, 240);
 
-    overflow-y: hidden;
-    overflow-x: auto;
-    white-space: nowrap;
+    overflow: hidden;
+    white-space: nowrap; 
+    
+    outline: none;
+    caret-color: #000;
 
     scrollbar-width: thin;
     scrollbar-arrow-color: black;
@@ -176,4 +200,25 @@ body {
 }
 .darker:active {
     background-color: rgb(190, 190, 190);
+}
+
+.inverted {
+    color: #eee;
+    background-color: rgb(40, 40, 40);
+}
+.inverted:hover {
+    background-color: rgb(70, 70, 70);
+}
+.inverted:active {
+    background-color: rgb(90, 90, 90);
+}
+
+.yellower {
+    background-color: rgb(210, 210, 250);
+}
+.yellower:hover {
+    background-color: rgb(210, 210, 230);
+}
+.yellower:active {
+    background-color: rgb(210, 210, 210);
 }
