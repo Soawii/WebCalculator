@@ -1,0 +1,224 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+html, body {
+    height: 100%;
+    background-color: #222;
+    color: #000;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: rgb(225, 225, 225);
+    padding: 4px;
+
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.header-link {
+    text-align: center;
+    width: 100px;
+    padding: 8px;
+    color:#000;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+}
+
+.calculator {
+    height: 100%;
+    width: 100%;
+
+    max-width: 600px;
+    max-height: 700px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 24px;
+
+    background-color: rgb(225, 225, 225);
+
+    border-radius: 24px;
+    box-shadow: 0px 0px 3 #eee;
+}
+
+.calculator-name {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.calculator-helper {
+    text-align: center;
+    font-size: 0.75rem;
+    padding-bottom: 0.5rem;
+}
+
+.calculator-bar {
+    padding: 0rem 0.6rem;
+    padding-bottom: 16px;
+    height: 8.5rem;
+
+    border-radius: 14px;
+
+    background-color: rgb(240, 240, 240);
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0px 0px 2px #555;
+}
+
+.calculator-bar-top {
+    padding: 0.25rem 0rem;
+    font-size: 1.5rem;
+    color:rgb(150, 150, 150);
+
+    text-align: end;
+}
+
+.calculator-bar-bottom {
+    font-size: 4rem;
+
+    border: 0px;
+    text-align: end;
+    background-color: rgb(240, 240, 240);
+
+    overflow: hidden;
+    white-space: nowrap; 
+    
+    outline: none;
+    caret-color: #000;
+
+    scrollbar-width: thin;
+    scrollbar-arrow-color: black;
+}
+
+.calculator-input {
+    flex: 1;
+    display: flex;
+
+    gap: 10px;
+}
+
+.calculator-input-col {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.calculator-input-button {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+
+    background-color: rgb(240, 240, 240);
+
+    border-radius: 14px;
+    border: 0px;
+    box-shadow: 0px 0px 2px #555;
+
+    font-size: 2.0rem;
+    font-family: inherit;
+}
+
+.calculator-input-button:hover {
+    background-color: rgb(220, 220, 220);
+
+    transform: scale(1.04);
+}
+
+.calculator-input-button:active {
+    background-color: rgb(200, 200, 200);
+}
+
+.bluer {
+    background-color: rgb(200, 200, 230);
+}
+.bluer:hover {
+    background-color: rgb(180, 180, 230);
+}
+.bluer:active {
+    background-color: rgb(160, 160, 230);
+}
+
+.purpler {
+    background-color: rgb(230, 230, 250);
+}
+.purpler:hover {
+    background-color: rgb(210, 210, 250);
+}
+.purpler:active {
+    background-color: rgb(190, 190, 250);
+}
+
+.greener {
+    background-color: rgb(200, 230, 200);
+}
+.greener:hover {
+    background-color: rgb(170, 230, 170);
+}
+.greener:active {
+    background-color: rgb(140, 230, 140);
+}
+
+.redder {
+    background-color: rgb(230, 200, 200);
+}
+.redder:hover {
+    background-color: rgb(230, 180, 180);
+}
+.redder:active {
+    background-color: rgb(230, 160, 160);
+}
+
+.darker {
+    background-color: rgb(230, 230, 230);
+}
+.darker:hover {
+    background-color: rgb(210, 210, 210);
+}
+.darker:active {
+    background-color: rgb(190, 190, 190);
+}
+
+.inverted {
+    color: #eee;
+    background-color: rgb(40, 40, 40);
+}
+.inverted:hover {
+    background-color: rgb(70, 70, 70);
+}
+.inverted:active {
+    background-color: rgb(90, 90, 90);
+}
+
+.yellower {
+    background-color: rgb(210, 210, 250);
+}
+.yellower:hover {
+    background-color: rgb(210, 210, 230);
+}
+.yellower:active {
+    background-color: rgb(210, 210, 210);
+}
