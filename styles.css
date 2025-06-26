@@ -101,7 +101,8 @@ header {
     text-align: end;
     background-color: rgb(240, 240, 240);
 
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap; 
     
     outline: none;
