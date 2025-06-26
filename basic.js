@@ -119,7 +119,6 @@ for (let i = 0; i < operators.length; i++) {
     argumentNumberToOperators[operators[i].func.length].push(operators[i].name);
 }
 
-console.log(argumentNumberToOperators);
 
 document.querySelector(".calculator-input").addEventListener("click", (e) => {
     if (!e.target.classList.contains("calculator-input-button"))

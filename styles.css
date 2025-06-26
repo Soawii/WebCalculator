@@ -2,7 +2,8 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Consolas, monospace;
+    font-weight: 500;
 }
 
 html, body {
@@ -73,7 +74,6 @@ header {
 
 .calculator-bar {
     padding: 0rem 0.6rem;
-    padding-bottom: 16px;
     height: 8.5rem;
 
     border-radius: 14px;
@@ -87,7 +87,7 @@ header {
 }
 
 .calculator-bar-top {
-    padding: 0.25rem 0rem;
+    padding: 0.25rem 0rem 0rem 0rem;
     font-size: 1.5rem;
     color:rgb(150, 150, 150);
 
@@ -140,6 +140,10 @@ header {
 
     font-size: 2.0rem;
     font-family: inherit;
+}
+
+.smaller {
+    font-size: 1.5rem;
 }
 
 .calculator-input-button:hover {

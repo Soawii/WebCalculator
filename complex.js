@@ -89,8 +89,6 @@ function updateInfo() {
     
     pointer[0] = selStart;
     pointer[1] = selEnd;
-
-    console.log(selStart, selEnd);
 }
 
 function insertFunction(string) {
