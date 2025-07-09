@@ -9,8 +9,10 @@
 </head>
 <body>
     <header>
-        <a href="./index.html" class="header-link" id="link-basic">Basic</a>
-        <a href="./complex.html" class="header-link" id="link-complex">Complex</a>
+        <div class="header-links">
+            <a href="./index.html" class="header-link" id="link-basic">Basic</a>
+            <a href="./complex.html" class="header-link" id="link-complex">Complex</a>
+        </div>
     </header>
     <div class="content">
         <div class="calculator">
@@ -60,6 +62,14 @@
                     <button class="calculator-input-button purpler number">-</button>
                     <button class="calculator-input-button purpler number">+</button>
                     <button class="calculator-input-button greener special" id="NOSHIFT-Equals_Enter">=</button>
+                </div>
+            </div>
+
+            <div class="history-wrapper">
+                <div class="history" data-open>
+                    <div class="history-heading">History</div>
+                    <div class="history-list">
+                    </div>
                 </div>
             </div>
         </div>

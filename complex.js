@@ -2,6 +2,7 @@ let bar_top = document.querySelector(".calculator-bar-top");
 let bar_bottom = document.querySelector(".calculator-bar-bottom");
 let pointer = [0, 0];
 let allowed_characters = ""; // filled later
+let history_list = document.querySelector(".history-list");
 
 let globalkey_to_button = {};
 let name_to_button = {};
@@ -14,6 +15,23 @@ for (let i = 0; i < all_buttons.length; i++) {
             globalkey_to_button[keys[j]] = all_buttons[i];
         }
     }
+}
+
+function createHistoryItem(expression, value) {
+    let history_item = document.createElement("div");
+    history_item.classList.add("history-item");
+    let history_item_top = document.createElement("div");
+    history_item_top.classList.add("history-item-top");
+    let history_item_bottom = document.createElement("div");
+    history_item_bottom.classList.add("history-item-bottom");
+
+    history_item_top.textContent = String(expression);
+    history_item_bottom.textContent = String(value);
+
+    history_item.appendChild(history_item_top);
+    history_item.appendChild(history_item_bottom);
+
+    history_list.prepend(history_item);
 }
 
 function checkAllowedCharacters(string) {
@@ -153,6 +171,7 @@ const buttonname_to_description = {
     '=': new Description("=", "other", (e) => { 
         const value = evaluateString(bar_bottom.value);
         if (isFinite(Number(value)) && !isNaN(Number(value))) {
+            createHistoryItem(bar_bottom.value, value);
             selectText(0, bar_bottom.value.length);
             insertText(value);
             bar_top.textContent = '0';
@@ -523,3 +542,27 @@ window.addEventListener("keydown", (e) => {
 });
 
 bar_bottom.setAttribute("inputmode", "none");
+
+let prev_height = "";
+let history = document.querySelector(".history");
+let history_heading = document.querySelector(".history-heading");
+history_heading.addEventListener("click", (e) => {
+    if (history_list.style.display == "none") {
+        history_list.style.display = "flex";
+        history.style.height = prev_height;
+    }
+    else {
+        prev_height = history.style.height;
+        history_list.style.display = "none";
+        history.style.height = "auto";
+    }
+    history.toggleAttribute("data-open");
+});
+
+history_list.addEventListener("click", (e) => {
+    if (e.target.classList.contains("history-item-top") || e.target.classList.contains("history-item-bottom")) {
+        const target = e.target.parentNode.firstElementChild.nextElementSibling;
+        const number = target.textContent;
+        insertText(number);
+    }
+});
