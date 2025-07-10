@@ -546,15 +546,21 @@ bar_bottom.setAttribute("inputmode", "none");
 let prev_height = "";
 let history = document.querySelector(".history");
 let history_heading = document.querySelector(".history-heading");
+let arrow = document.querySelector(".arrow");
+
 history_heading.addEventListener("click", (e) => {
     if (history_list.style.display == "none") {
         history_list.style.display = "flex";
         history.style.height = prev_height;
+        arrow.classList.remove("arrow-down");
+        arrow.classList.add("arrow-right");
     }
     else {
         prev_height = history.style.height;
         history_list.style.display = "none";
         history.style.height = "auto";
+        arrow.classList.remove("arrow-right");
+        arrow.classList.add("arrow-down");
     }
     history.toggleAttribute("data-open");
 });
@@ -566,3 +572,5 @@ history_list.addEventListener("click", (e) => {
         insertText(number);
     }
 });
+
+bar_bottom.focus();

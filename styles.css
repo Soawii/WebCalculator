@@ -257,7 +257,7 @@ header {
     width: 250px;
     height: 250px;
     min-width: 100px;
-    min-height: 44px;
+    min-height: 34px;
 
     background-color: #e8e8e8;
     border-radius: 16px;
@@ -278,16 +278,7 @@ header {
     text-align: center;
     border-bottom: 1px solid rgb(0 0 0 / 0.2);
     transition: all 0.1s;
-}
-.history-heading::before {
-    content: "⯆";
-    vertical-align:middle;
-    margin-right: 6px;
-}
-.history[data-open] .history-heading::before {
-    content: "⯈";
-    vertical-align:middle;
-    margin-right: 6px;
+    text-wrap: nowrap;
 }
 .history-heading:hover {
     cursor: pointer;
@@ -326,10 +317,12 @@ header {
 .history-item-top {
     color: rgb(150, 150, 150);
     font-size: 1rem;
+    text-wrap: nowrap;
 }
 
 .history-item-bottom {
     font-size: 1.5rem;
+    text-wrap: nowrap;
 }
 
 .resize-horizontal {
@@ -338,4 +331,26 @@ header {
 
 a:active {
     color: rgb(162, 29, 29);
+}
+
+
+.arrow-wrapper {
+    display: inline-block;
+    width: 14px;
+}
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: 2%;
+}
+.arrow-right {
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid #000;
+}
+.arrow-down {
+    border-top: 10px solid #000;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
 }
